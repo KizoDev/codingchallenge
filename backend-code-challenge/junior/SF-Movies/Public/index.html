@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF Movies - Filming Locations</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="downloader-2 downloader-2-part1">
+        <div class="downloader-2 downloader-2-part1">
+        <h1>SF Movies - Filming Locations</h1>
+        </div>
+    </div>
+    <div class="search-container">
+    <form id="searchForm">
+        <label for="searchTerm">Search:</label>
+        <input type="text" id="searchTerm" name="searchTerm" required><br><br>
+        <button type="submit">Find</button>
+    </form>
+    </div>
+    <div id="filmingLocations"></div>
+
+    <script type="module">
+        async function fetchFilmingLocations(searchTerm) {
+            const response = await fetch(`/filming-locations?searchTerm=${searchTerm}`);
+            return response.json();
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const searchTerm = document.getElementById('searchTerm').value;
+            const locations = await fetchFilmingLocations(searchTerm);
+
+            const filmingLocationsElement = document.getElementById('filmingLocations');
+            filmingLocationsElement.innerHTML = '';
+            locations.forEach(location => {
+                const locationInfo = document.createElement('div');
+                locationInfo.innerHTML = `<p>Title: ${location.title}</p><p>Locations: ${location.locations}</p><p>Director: ${location.director}</p><p>Release Year: ${location.release_year}</p>`;
+                filmingLocationsElement.appendChild(locationInfo);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!-- frontend/index.html --
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF Movies - Filming Locations</title>
+</head>
+<body>
+    <h1>SF Movies - Filming Locations</h1>
+    <form id="searchForm">
+        <label for="searchTerm">Search:</label>
+        <input type="text" id="searchTerm" name="searchTerm" required><br><br>
+        <button type="submit">Find</button>
+    </form>
+    <div id="filmingLocations"></div>
+
+    <script type="module">
+        async function fetchFilmingLocations(searchTerm) {
+            const response = await fetch(`/filming-locations?searchTerm=${searchTerm}`);
+            return response.json();
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const searchTerm = document.getElementById('searchTerm').value;
+            const locations = await fetchFilmingLocations(searchTerm);
+
+            const filmingLocationsElement = document.getElementById('filmingLocations');
+            filmingLocationsElement.innerHTML = '';
+            locations.forEach(location => {
+                const locationInfo = document.createElement('div');
+                locationInfo.innerHTML = `<p>Title: ${location.title}</p><p>Locations: ${location.locations}</p><p>Director: ${location.director}</p><p>Release Year: ${location.release_year}</p>`;
+                filmingLocationsElement.appendChild(locationInfo);
+            });
+        });
+    </script>
+</body>
+</html>

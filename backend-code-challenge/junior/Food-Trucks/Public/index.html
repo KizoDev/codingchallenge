@@ -1,0 +1,49 @@
+<!-- public/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Trucks Near Location</title>
+</head>
+<body>
+    <h1>Food Trucks Near Location</h1>
+    
+    <div>
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" name="latitude">
+    </div>
+    <div>
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" name="longitude">
+    </div>
+    <button onclick="fetchFoodTrucks()">Fetch Food Trucks</button>
+
+    <div id="foodTrucks"></div>
+
+    <script>
+        async function fetchFoodTrucks() {
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+
+            const response = await fetch(`/food-trucks?latitude=${latitude}&longitude=${longitude}`);
+            const data = await response.json();
+
+            const foodTrucksDiv = document.getElementById('foodTrucks');
+            foodTrucksDiv.innerHTML = '';
+
+            data.forEach(truck => {
+                const truckElement = document.createElement('div');
+                truckElement.innerHTML = `
+                    <h3>${truck.name}</h3>
+                    <p><strong>Address:</strong> ${truck.address}</p>
+                    <p><strong>Food Items:</strong> ${truck.foodItems}</p>
+                    <hr>
+                `;
+                foodTrucksDiv.appendChild(truckElement);
+            });
+        }
+    </script>
+</body>
+</html>
