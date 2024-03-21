@@ -1,8 +1,6 @@
 import express, { Express } from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import uri from "./db/connect";
 import axios from 'axios';
 import path from 'path';
 
@@ -33,7 +31,6 @@ app.get('/filming-locations', async (req, res) => {
             throw new Error('Search term is required.');
         }
    
-        // Call the SF Movies API to search for filming locations
         const response = await axios.get(`https://data.sfgov.org/resource/wwmu-gmzc.json?title=${searchTerm}`);
 
         const locations = response.data.map((location: any) => {
@@ -47,14 +44,13 @@ app.get('/filming-locations', async (req, res) => {
 
         res.json(locations);
     } catch (error) {
-        throw new Error("error getting location");
+      res.status(500).json({ error: error.message });
             }
 });
 
 
 const start = async () => {
     try {
-      await mongoose.connect(uri)
       app.listen(PORT, () => {
         console.log(`Server is listening on port ${PORT}`);
       });

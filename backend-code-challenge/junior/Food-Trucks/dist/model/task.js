@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+//import {ITask} from '../types/task';
 const mongoose_1 = require("mongoose");
 const taskSchema = new mongoose_1.Schema({
     name: {

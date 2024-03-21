@@ -9,7 +9,7 @@ const swaggerOptions = {
         info: {
             title: 'Food Trucks API',
             version: '1.0.0',
-            description: 'API for finding food trucks near a specific location',
+            description: 'API for finding food trucks near a specific location on a map',
         },
         basePath: '/',
     },

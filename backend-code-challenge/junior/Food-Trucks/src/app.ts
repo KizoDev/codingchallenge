@@ -1,8 +1,6 @@
 import express, { Express } from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import uri from "./db/connect";
 import axios from 'axios';
 import path from 'path';
 
@@ -24,7 +22,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'Public', 'index.html'));
 });
 
-// Endpoint to fetch food trucks near a specific location
 app.get('/food-trucks', async (req, res) => {
   try {
       const { latitude, longitude } = req.query;
@@ -47,14 +44,12 @@ app.get('/food-trucks', async (req, res) => {
 
       res.json(foodTrucks);
   } catch (error) {
-    throw new Error("error getting foodtrucks");
     
-     // res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
   }
 });
 const start = async () => {
     try {
-      await mongoose.connect(uri)
       app.listen(PORT, () => {
         console.log(`Server is listening on port ${PORT}`);
       });
