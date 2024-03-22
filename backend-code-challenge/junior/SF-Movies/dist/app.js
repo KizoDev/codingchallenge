@@ -13,17 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const connect_1 = __importDefault(require("./db/connect"));
 const axios_1 = __importDefault(require("axios"));
 const path_1 = __importDefault(require("path"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_1 = __importDefault(require("./swagger"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.static(path_1.default.join(__dirname, "..", "Public")));
@@ -37,7 +35,6 @@ app.get('/filming-locations', (req, res) => __awaiter(void 0, void 0, void 0, fu
         if (!searchTerm) {
             throw new Error('Search term is required.');
         }
-        // Call the SF Movies API to search for filming locations
         const response = yield axios_1.default.get(`https://data.sfgov.org/resource/wwmu-gmzc.json?title=${searchTerm}`);
         const locations = response.data.map((location) => {
             return {
@@ -50,18 +47,10 @@ app.get('/filming-locations', (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.json(locations);
     }
     catch (error) {
-        throw new Error("error getting location");
+        res.status(500).json({ error: error.message });
     }
 }));
-const start = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield mongoose_1.default.connect(connect_1.default);
-        app.listen(PORT, () => {
-            console.log(`Server is listening on port ${PORT}`);
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
 });
-start();
+exports.default = app;

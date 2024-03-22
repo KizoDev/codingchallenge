@@ -9,7 +9,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger';
 
 const app: Express = express();
-const PORT: string | number = process.env.PORT || 5000;
+const PORT: string | number = process.env.PORT || 3000;
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
@@ -48,14 +48,10 @@ app.get('/food-trucks', async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 });
-const start = async () => {
-    try {
-      app.listen(PORT, () => {
-        console.log(`Server is listening on port ${PORT}`);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-start()
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+});
+
+export default app;
+

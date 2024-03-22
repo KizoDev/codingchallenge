@@ -9,7 +9,7 @@ import swaggerSpec from './swagger';
 dotenv.config();
 
 const app: Express = express();
-const PORT: string | number = process.env.PORT || 8000;
+const PORT: string | number = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -49,14 +49,9 @@ app.get('/filming-locations', async (req, res) => {
 });
 
 
-const start = async () => {
-    try {
-      app.listen(PORT, () => {
-        console.log(`Server is listening on port ${PORT}`);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-start()
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+   
+export default app
